@@ -4,408 +4,696 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>forcf by yukishiro</title>
-    <!-- นำเข้าฟอนต์ Kanit จาก Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>PixelPro | บริการรับออกแบบกราฟิกมืออาชีพ</title>
+    <!-- นำเข้าฟอนต์ Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* กำหนดตัวแปรสีโทนฟ้า-ขาว */
+        /* === ตัวแปรสี (Color Variables) === */
         :root {
-            --bg-color: #f4f8fc; 
-            --card-bg: #ffffff; 
-            --primary-light: #e6f2ff; 
-            --primary: #cce4ff; 
-            --primary-dark: #a1ccff; 
-            --text-main: #2d3e50; 
-            --text-muted: #6b7c93; 
-            --border-radius-sm: 12px;
-            --border-radius-md: 20px;
-            --border-radius-lg: 28px;
-            --shadow-sm: 0 4px 12px rgba(45, 62, 80, 0.04);
-            --shadow-md: 0 8px 24px rgba(45, 62, 80, 0.08);
+            --bg-main: #02050D;
+            --bg-card: rgba(21, 28, 47, 0.4);
+            --bg-card-hover: rgba(30, 41, 67, 0.6);
+            --primary-color: #3B82F6; 
+            --primary-hover: #60A5FA;
+            --primary-glow: rgba(59, 130, 246, 0.5);
+            --accent-color: #F59E0B; 
+            --accent-glow: rgba(245, 158, 11, 0.5);
+            --text-main: #FFFFFF;
+            --text-secondary: #94A3B8;
+            --facebook: #1877F2;
+            --line: #00C300;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-pill: 9999px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* รีเซ็ตค่าเริ่มต้น */
+        /* === การตั้งค่าเริ่มต้น === */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Kanit', sans-serif;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-main);
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* คอนเทนเนอร์หลัก */
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 24px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
+        /* === การชดเชยระยะ Header (Anchor Links) === */
+        section {
+            scroll-margin-top: 80px; 
+            padding: 40px 0;
+            opacity: 0;
+            animation: fadeIn 0.8s forwards;
         }
 
-        /* --- ส่วนหัว (Header) --- */
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .profile-pic {
-            width: 70px;
-            height: 70px;
-            background-color: var(--primary-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 500;
-            color: var(--text-main);
-            border: 2px solid var(--primary);
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-        .profile-pic img {
+        /* === ✨ Starfield Background Effect ✨ === */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        .shop-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+        .stars1, .stars2, .stars3 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 190px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 230px 170px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 280px 90px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 320px 140px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 380px 50px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat;
         }
 
-        .shop-name {
-            font-size: 1.4rem;
-            font-weight: 600;
-            line-height: 1.2;
+        .stars1 { background-size: 400px 400px; animation: moveStars 60s linear infinite, twinkle 4s ease-in-out infinite; }
+        .stars2 { background-size: 600px 600px; animation: moveStars 45s linear infinite, twinkle 6s ease-in-out infinite 1s; opacity: 0.7; }
+        .stars3 { background-size: 800px 800px; animation: moveStars 30s linear infinite, twinkle 8s ease-in-out infinite 2s; opacity: 0.4; }
+
+        @keyframes moveStars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-50%); }
         }
 
-        .slogan {
-            background-color: var(--primary-light);
-            color: var(--text-main);
-            font-size: 0.85rem;
-            padding: 4px 12px;
-            border-radius: 20px;
-            display: inline-block;
-            align-self: flex-start;
-            font-weight: 400;
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
         }
 
-        /* --- กล่องสไตล์การ์ดทั่วไป --- */
-        .card {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius-md);
-            padding: 20px;
-            box-shadow: var(--shadow-sm);
+        /* === 🌟 Background Glow Effects === */
+        .glow-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
         }
 
-        /* --- ส่วน Intro --- */
-        .intro-section {
+        .glow-overlay::before, .glow-overlay::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px); 
+            opacity: 0.4;
+        }
+
+        .glow-overlay::before {
+            top: -20%; left: -20%; width: 60vw; height: 60vw;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.5) 0%, transparent 60%);
+            animation: pulseGlow 8s infinite alternate;
+        }
+
+        .glow-overlay::after {
+            bottom: -20%; right: -20%; width: 70vw; height: 70vw;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 60%); /* เปลี่ยนเป็นแสงม่วงนิดๆ ให้เข้ากับชื่อร้าน */
+        }
+
+        @keyframes pulseGlow {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0.5; transform: scale(1.1); }
+        }
+
+        /* === โครงสร้างหลัก (Layout) === */
+        .container {
+            width: 100%;
+            max-width: 540px;
+            margin: 0 auto;
+            padding: 0 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(15px); }
+        }
+
+        /* === Header === */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(2, 5, 13, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .intro-text h2 {
-            font-size: 1.2rem;
+        .logo {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .logo span {
+            color: var(--text-main);
+            text-shadow: none;
+        }
+
+        /* === Hero Section === */
+        .hero {
+            padding-top: 100px;
+            padding-bottom: 30px;
+            text-align: center;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--primary-hover);
+            padding: 5px 14px;
+            border-radius: var(--radius-pill);
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        /* === ✨ เอฟเฟกต์ชื่อร้านสุดเริ่ด ✨ === */
+        .hero-title-wrapper {
+            /* ใช้ Drop Shadow ห่อตัวอักษรเพื่อสร้างแสงฟุ้งรอบๆ โดยไม่ทับการไล่สีของตัวอักษร */
+            filter: drop-shadow(0 0 25px rgba(139, 92, 246, 0.6)) drop-shadow(0 0 10px rgba(59, 130, 246, 0.8));
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: floatTitle 6s ease-in-out infinite; /* ทำให้ชื่อลอยขึ้นลงเบาๆ */
+        }
+
+        .hero-title {
+            font-size: clamp(3.5rem, 12vw, 4.5rem); /* ขนาดใหญ่สะใจ ย่อตามจอมือถือ */
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: 2px;
+            margin: 0;
+            
+            /* สร้าง Animated Gradient (ไล่สีและขยับได้) */
+            background: linear-gradient(
+                to right, 
+                #3B82F6, /* Blue */
+                #A855F7, /* Purple */
+                #2DD4BF, /* Teal */
+                #3B82F6  /* Blue (loop) */
+            );
+            background-size: 300% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shineText 4s linear infinite; /* ขยับ Gradient */
+        }
+
+        @keyframes shineText {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+
+        @keyframes floatTitle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); } /* ลอยขึ้น */
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        /* === Buttons === */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: var(--radius-pill);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn:active { transform: scale(0.96); }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-drive {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-main);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-drive:hover {
+            border-color: var(--primary-hover);
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary-hover);
+        }
+
+        .btn-fb {
+            background-color: var(--facebook);
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .btn-fb:hover { background-color: #166fe5; transform: translateY(-2px); }
+
+        .btn-line {
+            background-color: var(--line);
+            color: #fff;
+        }
+
+        .btn-line:hover { background-color: #00a000; transform: translateY(-2px); }
+
+        /* === Section Titles === */
+        .section-title {
+            font-size: 1.15rem;
             font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 18px;
+            background-color: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        /* === Cards & Lists === */
+        .card {
+            background-color: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            background-color: var(--bg-card-hover);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* === Pricing Section === */
+        .pricing-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pricing-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .pricing-card.popular {
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
+        }
+
+        .pricing-card.popular:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--accent-color);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-bottom-left-radius: 8px;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .price-info h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
             margin-bottom: 2px;
         }
 
-        .intro-text p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
+        .price-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
         }
 
-        .btn-outline {
-            padding: 8px 16px;
-            border: 1.5px solid var(--primary-dark);
-            background-color: transparent;
-            color: var(--text-main);
-            border-radius: var(--border-radius-sm);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
+        .price-amount {
+            text-align: right;
         }
 
-        .btn-outline:hover {
-            background-color: var(--primary-light);
+        .price-amount .amount {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-hover);
         }
 
-        /* --- ส่วนราคาสินค้า/บริการ --- */
-        .pricing-section h2 {
-            font-size: 1.2rem;
-            margin-bottom: 16px;
-            text-align: center;
+        .pricing-card.popular .price-amount .amount {
+            color: var(--accent-color);
+            text-shadow: 0 0 10px var(--accent-glow);
         }
 
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+        .price-amount .unit {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
         }
 
-        .pricing-item {
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius-sm);
-            padding: 16px 8px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            transition: transform 0.2s ease;
-        }
-
-        .pricing-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .pricing-item .item-name {
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .pricing-item .item-price {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        /* --- กล่องหัวข้อ (ใช้ร่วมกัน) --- */
-        .list-header-box {
-            background-color: var(--primary);
-            border-radius: var(--border-radius-sm);
-            padding: 12px 20px;
+        /* กฎของร้าน */
+        .rules-list { list-style: none; }
+        .rules-list li {
+            position: relative;
+            padding-left: 28px;
             margin-bottom: 12px;
-            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
         }
-
-        .list-header-box h2 {
-            font-size: 1.2rem;
-            color: var(--text-main);
-            margin: 0;
+        .rules-list li:hover { color: var(--text-main); }
+        .rules-list li:last-child { margin-bottom: 0; }
+        .rules-list li::before {
+            content: "📌";
+            position: absolute;
+            left: 0;
+            top: -2px;
+            font-size: 0.95rem;
         }
+        .rules-list li strong { color: var(--text-main); font-weight: 500; }
 
-        /* --- ส่วนรายการข้อความ --- */
-        .list-content {
-            padding: 20px;
-        }
-
-        .custom-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .custom-list li {
+        /* ขั้นตอนการสั่งซื้อ */
+        .step-item {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            font-size: 1rem;
+            gap: 14px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .step-item:last-child { margin-bottom: 0; }
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 40px;
+            bottom: -15px;
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(59, 130, 246, 0.5), rgba(59, 130, 246, 0.1));
         }
 
-        .list-num {
-            background-color: var(--primary-dark);
-            color: white;
-            width: 24px;
-            height: 24px;
+        .step-number {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.85rem;
             font-weight: 600;
+            font-size: 0.95rem;
             flex-shrink: 0;
-            margin-top: 2px;
+            z-index: 2;
+            border: 2px solid rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 10px var(--primary-glow);
         }
 
-        /* --- ส่วนปุ่มเข้าลิ้งก์ขนาดใหญ่ (อัปเดตใหม่) --- */
-        .btn-large-action {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 2px;
-            width: 100%;
-            padding: 16px 20px;
-            background-color: var(--card-bg);
-            color: var(--text-main);
-            border: 2px solid var(--primary-dark);
-            border-radius: 50px; /* ทรงวงรี */
-            text-decoration: none;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            margin-top: 8px;
-        }
-
-        .btn-large-action:hover {
-            background-color: var(--primary-dark);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-large-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .btn-large-subtitle {
-            font-size: 0.85rem;
-            font-weight: 400;
-            opacity: 0.8; /* ทำให้สีดูซอฟต์ลงเล็กน้อย */
-        }
-
-        /* --- ส่วนช่องทางการติดต่อ --- */
-        .contact-section {
-            text-align: center;
-            margin-top: 8px;
-        }
-
-        .contact-section h2 {
-            font-size: 1.2rem;
-            margin-bottom: 16px;
-        }
-
-        .social-links {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .btn-social {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            border-radius: var(--border-radius-sm);
-            text-decoration: none;
+        .step-info h3 {
+            font-size: 1rem;
             font-weight: 500;
-            font-size: 1.1rem;
+            margin-bottom: 4px;
             color: var(--text-main);
-            background-color: var(--card-bg);
-            border: 1.5px solid var(--primary);
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-sm);
         }
 
-        .btn-social:hover {
-            background-color: var(--primary-light);
-            border-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        .btn-facebook {
-            color: #1877F2;
-        }
-        
-        .btn-line {
-            color: #00B900;
+        .step-info p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
         }
 
+        /* === Portfolio Section === */
+        .portfolio-card {
+            text-align: center;
+            padding: 30px 16px;
+            background: linear-gradient(145deg, rgba(21, 28, 47, 0.5), rgba(2, 5, 13, 0.8));
+        }
+
+        .portfolio-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        /* === Contact Section === */
+        .contact-section {
+            padding-bottom: 60px;
+        }
+
+        /* === Footer === */
+        footer {
+            text-align: center;
+            padding: 20px 20px 40px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* === Responsive Desktop === */
+        @media (min-width: 768px) {
+            .hero-title { font-size: 4.5rem; }
+            .hero p { font-size: 1rem; }
+            .pricing-grid { flex-direction: row; }
+            .pricing-card { flex: 1; flex-direction: column; text-align: center; padding: 24px 16px; }
+            .price-amount { text-align: center; margin-top: 12px; }
+            .contact-buttons { display: flex; gap: 15px; }
+            .contact-buttons .btn { margin-bottom: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <!-- 1. ส่วนหัวร้านค้า -->
-        <header class="header">
-            <div class="profile-pic">
-                <img src="ไม่มีชื่อ 364_20260416222435.png"alt="Profile">
-            </div>
-            <div class="shop-info">
-                <h1 class="shop-name">yukishiro</h1>
-                <span class="slogan">รับทำเว็บไซต์ราคาน่ารัก</span>
-            </div>
-        </header>
+    <!-- ✨ Starfield Background ✨ -->
+    <div class="stars-container">
+        <div class="stars1"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+    </div>
 
-        <!-- 2. หัวข้อและข้อความย่อย -->
-        <section class="card intro-section">
-            <div class="intro-text">
-                <h2>เว็บไซต์สุดพิเศษ !</h2>
-                <p>สั่งทำเว็บไซต์เริ่มต้น 119.-</p>
+    <!-- 🌟 Glow Background 🌟 -->
+    <div class="glow-overlay"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                🎨 Pixel<span>Pro</span>
             </div>
-            <a href="https://www.facebook.com/share/17ZoRTmp1g/?mibextid=wwXIfr" class="btn-outline">ติดต่อ</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. Hero Section -->
+        <section class="hero container">
+            <div class="hero-tag">✨ บริการออกแบบกราฟิกครบวงจร</div>
+            
+            <!-- เอฟเฟกต์ชื่อร้านสุดเริ่ด -->
+            <div class="hero-title-wrapper">
+                <h1 class="hero-title">PixelPro</h1>
+            </div>
+            
+            <p>รับออกแบบโลโก้ แบนเนอร์โฆษณา และสื่อโซเชียลมีเดียทุกชนิด งานไว ใส่ใจทุกรายละเอียด ตรงตามบรีฟแน่นอน</p>
+            
+            <a href="javascript:void(0);" onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });" class="btn btn-primary">
+                ดูแพ็กเกจและราคา
+            </a>
         </section>
 
-        <!-- 3. ส่วนรายการและราคา -->
-        <section class="card pricing-section">
-            <h2>Price rate</h2>
+        <!-- 2. เรทราคา (Pricing Section) -->
+        <section id="pricing" class="container">
+            <h2 class="section-title">เรทราคาบริการ</h2>
             <div class="pricing-grid">
-                <div class="pricing-item">
-                    <span class="item-name">แพ็กเกจ A</span>
-                    <span class="item-price">฿ 119</span>
+                <div class="card pricing-card" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });">
+                    <div class="price-info">
+                        <h3>ออกแบบแบนเนอร์โฆษณา</h3>
+                        <p>ภาพเดี่ยว/โปรโมชั่น</p>
+                    </div>
+                    <div class="price-amount">
+                        <div class="amount">390.-</div>
+                        <div class="unit">บาท / ภาพ</div>
+                    </div>
                 </div>
-                <div class="pricing-item">
-                    <span class="item-name">แพ็กเกจ B</span>
-                    <span class="item-price">฿ 199</span>
+
+                <div class="card pricing-card popular" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });">
+                    <div class="popular-badge">ยอดฮิต 🔥</div>
+                    <div class="price-info">
+                        <h3>ออกแบบโลโก้แบรนด์</h3>
+                        <p>ดีไซน์เอกลักษณ์เฉพาะคุณ</p>
+                    </div>
+                    <div class="price-amount">
+                        <div class="amount">1,590.-</div>
+                        <div class="unit">เริ่มต้น / โปรเจกต์</div>
+                    </div>
                 </div>
-                <div class="pricing-item">
-                    <span class="item-name">แพ็กเกจ C</span>
-                    <span class="item-price">฿ 319</span>
+
+                <div class="card pricing-card" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });">
+                    <div class="price-info">
+                        <h3>แพ็กเกจเหมารายเดือน</h3>
+                        <p>ดูแลภาพรวมเพจ (15 โพสต์)</p>
+                    </div>
+                    <div class="price-amount">
+                        <div class="amount">9,900.-</div>
+                        <div class="unit">บาท / เดือน</div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. ส่วนหัวข้อและรายการข้อความ -->
-        <section>
-            <div class="list-header-box">
-                <h2>กฎของร้าน !</h2>
-            </div>
-            <div class="card list-content">
-                <ul class="custom-list">
-                    <li>
-                        <span class="list-num">1</span>
-                        <span>ถ้าชำระเงินแล้ว ทางร้านจะไม่คืนเงินทุกกรณี</span>
-                    </li>
-                    <li>
-                        <span class="list-num">2</span>
-                        <span>ห้ามเปลี่ยนโทนสีหลังเช็คงาน เรียบร้อยแล้ว</span>
-                    </li>
-                    <li>
-                        <span class="list-num">3</span>
-                        <span>ห้ามแก้ไขงานป้ายเอง เช่น ย้อมสี = ปรับเริ่มต้น 1200฿</span>
-                    </li>
+        <!-- 3. กฎและข้อตกลงของร้าน -->
+        <section id="rules" class="container">
+            <h2 class="section-title">เงื่อนไขและข้อตกลงการจ้างงาน</h2>
+            <div class="card">
+                <ul class="rules-list">
+                    <li><strong>การแก้งาน:</strong> ลูกค้าสามารถขอแก้ไขงานฟรีได้ 3 ครั้ง (ยึดตามบรีฟเดิม) หากแก้เกินมีค่าใช้จ่ายเพิ่มเติมจุดละ 100 บาท</li>
+                    <li><strong>การมัดจำ:</strong> รบกวนชำระเงินมัดจำ 50% ก่อนเริ่มงาน และไม่สามารถขอคืนเงินมัดจำได้กรณีลูกค้ายกเลิกงานกลางคัน</li>
+                    <li><strong>การส่งมอบไฟล์:</strong> เมื่อชำระส่วนที่เหลือครบถ้วน ลูกค้าจะได้รับไฟล์ใช้งานจริง (PNG/JPG) พร้อมไฟล์ต้นฉบับ (AI/PSD)</li>
+                    <li><strong>การสำรองไฟล์:</strong> ทางร้านจะเก็บไฟล์ต้นฉบับไว้ให้เป็นเวลา 6 เดือน กรณีไฟล์สูญหายสามารถทักมาขอไฟล์ใหม่ได้ฟรี</li>
                 </ul>
             </div>
         </section>
 
-        <!-- 5. ส่วนปุ่มลิ้งก์ (อัปเดตมีข้อความใหญ่-เล็ก) -->
-        <section>
-            <div class="list-header-box">
-                <h2>เลือกของทำป้ายย</h2>
+        <!-- 4. ขั้นตอนการสั่งซื้อ (ขั้นตอนทำงาน) -->
+        <section id="steps" class="container">
+            <h2 class="section-title">ขั้นตอนการทำงาน</h2>
+            <div class="card">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-info">
+                        <h3>บรีฟรายละเอียดงาน (Brief)</h3>
+                        <p>แจ้งรายละเอียดที่ต้องการ โทนสี ข้อความ และแนบภาพตัวอย่าง (Reference) ให้ประเมินราคา</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-info">
+                        <h3>ชำระมัดจำและเริ่มงาน</h3>
+                        <p>ลูกค้าชำระเงินมัดจำ 50% เพื่อล็อกคิว กราฟิกจะเริ่มออกแบบตามระยะเวลาที่ตกลงกันไว้</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-info">
+                        <h3>ตรวจแก้และรับไฟล์สมบูรณ์</h3>
+                        <p>ส่งแบบดราฟท์ให้ลูกค้าตรวจสอบ แก้ไขงาน (ถ้ามี) จากนั้นชำระส่วนที่เหลือและรับไฟล์ภาพความละเอียดสูง</p>
+                    </div>
+                </div>
             </div>
-            <a href="https://drive.google.com/drive/folders/1kwUdV_5iMh-3eQeRf86b64J0DNKT2O0Y" class="btn-large-action" target="_blank">
-                <span class="btn-large-title">Google Drive</span>
-                <span class="btn-large-subtitle">คลิกเพื่อเลือกดู ตูน บล็อค ฯลฯ</span>
-            </a>
         </section>
 
-        <!-- 6. ส่วนช่องทางการติดต่อ -->
-        <section class="contact-section">
-            <h2>ช่องทางติดต่อ</h2>
-            <div class="social-links">
-                <a href="#" class="btn-social btn-facebook">Facebook</a>
-                <a href="#" class="btn-social btn-line">Line Official</a>
+        <!-- 5. ตัวอย่างผลงาน / รีวิว -->
+        <section id="portfolio" class="container">
+            <h2 class="section-title">พอร์ตฟอลิโอและผลงาน</h2>
+            <div class="card portfolio-card">
+                <div class="portfolio-icon">🎨</div>
+                <h3 style="margin-bottom: 8px; font-weight: 500; color: #fff; font-size: 1.05rem;">ดูตัวอย่างผลงานที่ผ่านมา</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.85rem;">
+                    รวบรวมผลงานออกแบบแบนเนอร์ โลโก้ และรีวิวความประทับใจจากแบรนด์ต่างๆ มากกว่า 500 โปรเจกต์
+                </p>
+                <a href="https://drive.google.com/drive/" target="_blank" rel="noopener noreferrer" class="btn btn-drive">
+                    📁 ชมผลงานใน Google Drive
+                </a>
             </div>
         </section>
 
-    </div>
+        <!-- 6. ติดต่อสอบถาม -->
+        <section id="contact" class="container contact-section">
+            <h2 class="section-title">ติดต่อสอบถามและจ้างงาน</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.85rem;">
+                ยินดีให้คำปรึกษาฟรี! ทักมาคุยรายละเอียดกันก่อนได้เลยครับ ตอบแชทไวมาก
+            </p>
+            <div class="contact-buttons">
+                <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="btn btn-fb">
+                    💬 Inbox Facebook
+                </a>
+                <a href="https://line.me/" target="_blank" rel="noopener noreferrer" class="btn btn-line">
+                    🟢 Add LINE Official
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 PixelPro Graphic Design. All Rights reserved.</p>
+    </footer>
 
 </body>
 </html>
-
 
