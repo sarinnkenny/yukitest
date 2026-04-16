@@ -1,0 +1,404 @@
+```html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forcf by yukishiro</title>
+    <!-- นำเข้าฟอนต์ Kanit จาก Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* กำหนดตัวแปรสีโทนฟ้า-ขาว */
+        :root {
+            --bg-color: #f4f8fc; 
+            --card-bg: #ffffff; 
+            --primary-light: #e6f2ff; 
+            --primary: #cce4ff; 
+            --primary-dark: #a1ccff; 
+            --text-main: #2d3e50; 
+            --text-muted: #6b7c93; 
+            --border-radius-sm: 12px;
+            --border-radius-md: 20px;
+            --border-radius-lg: 28px;
+            --shadow-sm: 0 4px 12px rgba(45, 62, 80, 0.04);
+            --shadow-md: 0 8px 24px rgba(45, 62, 80, 0.08);
+        }
+
+        /* รีเซ็ตค่าเริ่มต้น */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* คอนเทนเนอร์หลัก */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* --- ส่วนหัว (Header) --- */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .profile-pic {
+            width: 70px;
+            height: 70px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            color: var(--text-main);
+            border: 2px solid var(--primary);
+            flex-shrink: 0;
+        }
+
+        .shop-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .shop-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .slogan {
+            background-color: var(--primary-light);
+            color: var(--text-main);
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            align-self: flex-start;
+            font-weight: 400;
+        }
+
+        /* --- กล่องสไตล์การ์ดทั่วไป --- */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* --- ส่วน Intro --- */
+        .intro-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .intro-text h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .intro-text p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .btn-outline {
+            padding: 8px 16px;
+            border: 1.5px solid var(--primary-dark);
+            background-color: transparent;
+            color: var(--text-main);
+            border-radius: var(--border-radius-sm);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* --- ส่วนราคาสินค้า/บริการ --- */
+        .pricing-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .pricing-item {
+            background-color: var(--primary-light);
+            border-radius: var(--border-radius-sm);
+            padding: 16px 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .pricing-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .pricing-item .item-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .pricing-item .item-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* --- กล่องหัวข้อ (ใช้ร่วมกัน) --- */
+        .list-header-box {
+            background-color: var(--primary);
+            border-radius: var(--border-radius-sm);
+            padding: 12px 20px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .list-header-box h2 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        /* --- ส่วนรายการข้อความ --- */
+        .list-content {
+            padding: 20px;
+        }
+
+        .custom-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .custom-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+
+        .list-num {
+            background-color: var(--primary-dark);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* --- ส่วนปุ่มเข้าลิ้งก์ขนาดใหญ่ (อัปเดตใหม่) --- */
+        .btn-large-action {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2px;
+            width: 100%;
+            padding: 16px 20px;
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 2px solid var(--primary-dark);
+            border-radius: 50px; /* ทรงวงรี */
+            text-decoration: none;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .btn-large-action:hover {
+            background-color: var(--primary-dark);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-large-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .btn-large-subtitle {
+            font-size: 0.85rem;
+            font-weight: 400;
+            opacity: 0.8; /* ทำให้สีดูซอฟต์ลงเล็กน้อย */
+        }
+
+        /* --- ส่วนช่องทางการติดต่อ --- */
+        .contact-section {
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .contact-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-social {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border-radius: var(--border-radius-sm);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            background-color: var(--card-bg);
+            border: 1.5px solid var(--primary);
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-social:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-facebook {
+            color: #1877F2;
+        }
+        
+        .btn-line {
+            color: #00B900;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- 1. ส่วนหัวร้านค้า -->
+        <header class="header">
+            <div class="profile-pic">รูป</div>
+            <div class="shop-info">
+                <h1 class="shop-name">yukishiro</h1>
+                <span class="slogan">รับทำเว็บไซต์ราคาน่ารัก</span>
+            </div>
+        </header>
+
+        <!-- 2. หัวข้อและข้อความย่อย -->
+        <section class="card intro-section">
+            <div class="intro-text">
+                <h2>เว็บไซต์สุดพิเศษ !</h2>
+                <p>สั่งทำเว็บไซต์เริ่มต้น 119.-</p>
+            </div>
+            <a href="https://www.facebook.com/share/17ZoRTmp1g/?mibextid=wwXIfr" class="btn-outline">ติดต่อ</a>
+        </section>
+
+        <!-- 3. ส่วนรายการและราคา -->
+        <section class="card pricing-section">
+            <h2>Price rate</h2>
+            <div class="pricing-grid">
+                <div class="pricing-item">
+                    <span class="item-name">แพ็กเกจ A</span>
+                    <span class="item-price">฿ 119</span>
+                </div>
+                <div class="pricing-item">
+                    <span class="item-name">แพ็กเกจ B</span>
+                    <span class="item-price">฿ 199</span>
+                </div>
+                <div class="pricing-item">
+                    <span class="item-name">แพ็กเกจ C</span>
+                    <span class="item-price">฿ 319</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ส่วนหัวข้อและรายการข้อความ -->
+        <section>
+            <div class="list-header-box">
+                <h2>กฎของร้าน !</h2>
+            </div>
+            <div class="card list-content">
+                <ul class="custom-list">
+                    <li>
+                        <span class="list-num">1</span>
+                        <span>ถ้าชำระเงินแล้ว ทางร้านจะไม่คืนเงินทุกกรณี</span>
+                    </li>
+                    <li>
+                        <span class="list-num">2</span>
+                        <span>ห้ามเปลี่ยนโทนสีหลังเช็คงาน เรียบร้อยแล้ว</span>
+                    </li>
+                    <li>
+                        <span class="list-num">3</span>
+                        <span>ห้ามแก้ไขงานป้ายเอง เช่น ย้อมสี = ปรับเริ่มต้น 1200฿</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 5. ส่วนปุ่มลิ้งก์ (อัปเดตมีข้อความใหญ่-เล็ก) -->
+        <section>
+            <div class="list-header-box">
+                <h2>เลือกของทำป้ายย</h2>
+            </div>
+            <a href="https://drive.google.com/drive/folders/1kwUdV_5iMh-3eQeRf86b64J0DNKT2O0Y" class="btn-large-action" target="_blank">
+                <span class="btn-large-title">Google Drive</span>
+                <span class="btn-large-subtitle">คลิกเพื่อเลือกดู ตูน บล็อค ฯลฯ</span>
+            </a>
+        </section>
+
+        <!-- 6. ส่วนช่องทางการติดต่อ -->
+        <section class="contact-section">
+            <h2>ช่องทางติดต่อ</h2>
+            <div class="social-links">
+                <a href="#" class="btn-social btn-facebook">Facebook</a>
+                <a href="#" class="btn-social btn-line">Line Official</a>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
+
+
+```
